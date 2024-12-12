@@ -1,3 +1,4 @@
 import authRoutes from "./auth-routes";
+import companyRoutes from "./company-routes";
 
-export { authRoutes };
+export { authRoutes, companyRoutes };

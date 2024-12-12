@@ -74,6 +74,31 @@ paths:
         "500":
           description: "Oops! Something went wrong. Please try again later."
 
+  /api/v1/company/create-company:
+    post:
+      summary: create company
+      description: route for creating company
+      requestBody:
+        description: company name
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/companyName"
+              required:
+                - companyName
+              example:
+                companyName: "testingcompany"
+      responses:
+        "201":
+          description: "Company created"
+        "400":
+          description: "Company Aleady exists"
+        "401":
+          description: "You are not authorized to perform this action."
+        "500":
+          description: "Oops! Something went wrong. Please try again later."
+
 components:
   schemas:
     signup:
@@ -117,3 +142,10 @@ components:
           enum:
             - student
             - recruiter
+    companyName:
+      type: string
+      required:
+        - companyName
+      properties:
+        companyName:
+          type: string

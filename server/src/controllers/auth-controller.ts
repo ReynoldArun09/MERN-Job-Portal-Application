@@ -37,12 +37,11 @@ export const SignUpApi = AsyncWrapper(
       },
     });
 
-    SendApiResponse(
+    SendApiResponse({
       res,
-      HttpStatusCode.CREATED,
-      true,
-      ApiSuccessMessages.SIGN_UP_SUCCESS
-    );
+      statusCode: HttpStatusCode.CREATED,
+      message: ApiSuccessMessages.SIGN_UP_SUCCESS,
+    });
   }
 );
 
@@ -93,23 +92,21 @@ export const SignInApi = AsyncWrapper(
       profile: existingUser.profile,
     };
 
-    SendApiResponse(
+    SendApiResponse({
       res,
-      HttpStatusCode.OK,
-      true,
-      ApiSuccessMessages.SIGN_IN_SUCCESS,
-      userData
-    );
+      statusCode: HttpStatusCode.OK,
+      message: ApiSuccessMessages.SIGN_IN_SUCCESS,
+      data: userData,
+    });
   }
 );
 
 export const SignOutApi = AsyncWrapper(async (req: Request, res: Response) => {
   res.clearCookie("accessToken");
 
-  SendApiResponse(
+  SendApiResponse({
     res,
-    HttpStatusCode.OK,
-    true,
-    ApiSuccessMessages.SIGN_OUT_SUCCESS
-  );
+    statusCode: HttpStatusCode.OK,
+    message: ApiSuccessMessages.SIGN_OUT_SUCCESS,
+  });
 });

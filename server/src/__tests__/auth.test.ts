@@ -62,7 +62,7 @@ describe("Auth controller testing", () => {
       const response = await request(app)
         .post("/api/v1/auth/signin")
         .send(mockUser);
-      console.log(response.body);
+
       expect(response.status).toBe(200);
       expect(response.body.message).toBe(ApiSuccessMessages.SIGN_IN_SUCCESS);
     });

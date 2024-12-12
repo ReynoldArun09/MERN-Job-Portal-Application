@@ -38,10 +38,14 @@ export enum HttpStatusCode {
 export enum ApiErrorMessages {
   USER_ALREADY_EXISTS = "User already exists",
   USER_NOT_FOUND = "User not found",
+  COMPANY_ALREADY_EXISTS = "Company already exists",
+  INVALID_TOKEN = "Invalid Token",
+  COMPANY_NOT_FOUND = "Company not found",
 }
 
 export enum ApiSuccessMessages {
   SIGN_IN_SUCCESS = "User successfully logged in",
   SIGN_UP_SUCCESS = "User Account has been created",
   SIGN_OUT_SUCCESS = "User has been logged out",
+  COMPANY_CREATED = "Company created",
 }

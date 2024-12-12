@@ -17,3 +17,12 @@ export interface IUser extends Document {
   role: "student" | "recruiter";
   profile: Profile;
 }
+
+export interface ICompany extends Document {
+  name: string;
+  location: string;
+  description: string;
+  logo: string;
+  website: string;
+  userId: ObjectId;
+}

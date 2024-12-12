@@ -5,7 +5,7 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yamljs";
 import { ParsedEnvVariables } from "./config";
-import { authRoutes } from "./routes";
+import { authRoutes, companyRoutes } from "./routes";
 import { ErrorMiddleware, RouteNotFound } from "./middlewares";
 
 const app: Application = express();
@@ -28,7 +28,7 @@ if (ParsedEnvVariables.NODE_ENV !== "production") {
 }
 
 app.use("/api/v1/auth", authRoutes);
-
+app.use("/api/v1/company", companyRoutes);
 app.use(ErrorMiddleware);
 app.use(RouteNotFound);
 
