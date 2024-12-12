@@ -5,6 +5,8 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yamljs";
 import { ParsedEnvVariables } from "./config";
+import { authRoutes } from "./routes";
+import { ErrorMiddleware, RouteNotFound } from "./middlewares";
 
 const app: Application = express();
 const swaggerSpec = YAML.load("./src/docs/swagger.yaml");
@@ -21,8 +23,13 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cookieParser());
 app.disable("x-powered-by");
 
-if (ParsedEnvVariables.NODE_ENV === "production") {
+if (ParsedEnvVariables.NODE_ENV !== "production") {
   app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 }
+
+app.use("/api/v1/auth", authRoutes);
+
+app.use(ErrorMiddleware);
+app.use(RouteNotFound);
 
 export default app;

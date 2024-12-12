@@ -22,6 +22,7 @@ export enum ValidationMessages {
   CLOUDINARY_CLOUD_NAME_REQUIRED = "Cloudinary Cloud Name is required",
   CLOUDINARY_API_KEY_REQUIRED = "Cloudinary API Key is required",
   CLOUDINARY_API_SECRET_REQUIRED = "Cloudinary API Secret is required",
+  SALT_REQUIRED = "SALT is required",
 }
 
 export enum HttpStatusCode {
@@ -32,4 +33,15 @@ export enum HttpStatusCode {
   INTERNAL_SERVER = 500,
   UNAUTHORIZED = 401,
   FORBIDDEN = 403,
+}
+
+export enum ApiErrorMessages {
+  USER_ALREADY_EXISTS = "User already exists",
+  USER_NOT_FOUND = "User not found",
+}
+
+export enum ApiSuccessMessages {
+  SIGN_IN_SUCCESS = "User successfully logged in",
+  SIGN_UP_SUCCESS = "User Account has been created",
+  SIGN_OUT_SUCCESS = "User has been logged out",
 }
