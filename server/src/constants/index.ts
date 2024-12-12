@@ -41,6 +41,9 @@ export enum ApiErrorMessages {
   COMPANY_ALREADY_EXISTS = "Company already exists",
   INVALID_TOKEN = "Invalid Token",
   COMPANY_NOT_FOUND = "Company not found",
+  JOB_NOT_FOUND = "Job not found",
+  APPLICATION_ALREADY_EXISTS = "Application already exist",
+  APPLICATION_NOT_FOUND = "Application not found",
 }
 
 export enum ApiSuccessMessages {
@@ -48,4 +51,7 @@ export enum ApiSuccessMessages {
   SIGN_UP_SUCCESS = "User Account has been created",
   SIGN_OUT_SUCCESS = "User has been logged out",
   COMPANY_CREATED = "Company created",
+  JOB_CREATED = "Job Created",
+  JOB_APPLICATION_CREATED = "Job Application created",
+  STATUS_UPDATED = "Status updated",
 }

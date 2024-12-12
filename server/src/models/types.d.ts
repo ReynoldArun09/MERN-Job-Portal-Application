@@ -26,3 +26,23 @@ export interface ICompany extends Document {
   website: string;
   userId: ObjectId;
 }
+
+export interface IJob extends Document {
+  title: string;
+  description: string;
+  requirements: string[];
+  salary: number;
+  experienceLevel: number;
+  location: string;
+  jobType: string;
+  position: number;
+  company: ObjectId;
+  createdBy: ObjectId;
+  applications: Application[];
+}
+
+export interface IApplication extends Document {
+  job: ObjectId;
+  applicant: ObjectId;
+  status: "pending" | "accepted" | "rejected";
+}
