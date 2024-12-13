@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import axios from "@/config/axios";
 import { AxiosError } from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { AppDispatch, RootState, useAppDispatch } from "@/services/store";
-import { setLoading } from "@/services/features/authSlice";
+import { setLoading, setUser } from "@/services/features/authSlice";
 
 interface SigninValues {
     email: string;
@@ -42,6 +42,7 @@ export default function SignIPage() {
             dispatch(setLoading(true))
             const response = await axios.post("/auth/signin", inputs)
             if (response.data.success) {
+                dispatch(setUser(response.data.data))
                 toast.success(response.data.message)
                 navigate("/")
             }

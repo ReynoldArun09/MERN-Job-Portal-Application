@@ -1,18 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { initialAuthStateProps } from "../types";
 
-interface User {
-  email: string;
-  fullname: string;
-  phoneNumber: string;
-  role: "student" | "recruiter";
-}
-
-interface initialStateProps {
-  isLoading: boolean;
-  user: User | null;
-}
-
-const initialState: initialStateProps = {
+const initialState: initialAuthStateProps = {
   isLoading: false,
   user: null,
 };
@@ -30,5 +19,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoading } = authSlice.actions;
+export const { setLoading, setUser } = authSlice.actions;
 export default authSlice.reducer;

@@ -11,6 +11,7 @@ import bcrypt from "bcryptjs";
 import { SendApiResponse } from "../helpers/api-response";
 import { ParsedEnvVariables } from "../config";
 import jwt from "jsonwebtoken";
+import { UserDataType } from "../types";
 
 export const SignUpApi = AsyncWrapper(
   async (req: Request<{}, {}, SignUpSchemaType>, res: Response) => {
@@ -79,7 +80,7 @@ export const SignInApi = AsyncWrapper(
     res.cookie("accessToken", token, {
       httpOnly: true,
       secure: ParsedEnvVariables.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: "strict",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -110,3 +111,13 @@ export const SignOutApi = AsyncWrapper(async (req: Request, res: Response) => {
     message: ApiSuccessMessages.SIGN_OUT_SUCCESS,
   });
 });
+
+export const VerifyUserApi = AsyncWrapper(
+  async (req: Request, res: Response) => {
+    const user = req.user as UserDataType;
+    res.status(HttpStatusCode.OK).json({
+      success: true,
+      data: user,
+    });
+  }
+);
