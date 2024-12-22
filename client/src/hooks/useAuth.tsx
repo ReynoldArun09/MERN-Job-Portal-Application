@@ -2,11 +2,12 @@ import axios from "@/config/axios";
 import { AppDispatch } from "@/store";
 import { setLoading, setUser } from "@/store/features/authSlice";
 import { AxiosError } from "axios";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 
 export default function useAuth() {
   const dispatch: AppDispatch = useDispatch();
-  const verifyAuth = async () => {
+  const verifyAuth = useCallback(async () => {
     dispatch(setLoading(true));
     try {
       const response = await axios.get("/auth/verify-user");
@@ -20,7 +21,7 @@ export default function useAuth() {
     } finally {
       dispatch(setLoading(false));
     }
-  };
+  }, [dispatch]);
 
   return { verifyAuth };
 }
