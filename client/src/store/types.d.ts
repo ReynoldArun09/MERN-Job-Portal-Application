@@ -2,6 +2,9 @@ export interface initialAuthState {
   user: UserType | null;
   isLoading: boolean;
 }
+export interface initialJobState {
+  searchQuery: string;
+}
 
 export interface UserType {
   _id: string;

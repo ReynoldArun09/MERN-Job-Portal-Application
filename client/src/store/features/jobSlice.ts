@@ -1,12 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { initialJobState } from "../types";
 
-const initialState = {};
+const initialState: initialJobState = {
+  searchQuery: "",
+};
 
 export const jobSlice = createSlice({
   name: "job",
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
+  },
 });
 
-export const {} = jobSlice.actions;
+export const { setSearchQuery } = jobSlice.actions;
 export default jobSlice.reducer;
