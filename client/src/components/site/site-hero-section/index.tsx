@@ -19,7 +19,7 @@ export default function SiteHeroSection() {
   };
 
   return (
-    <section className="text-center space-y-5">
+    <section className="text-center space-y-5 py-10">
       <div className="space-y-5">
         <Badge className="text-rose-600 px-4 py-2 rounded-full">
           No. 1 job search platform

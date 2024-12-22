@@ -56,10 +56,7 @@ export default function SignIPage() {
     <>
       <Head title="Sign in" description="job portal application sign in page" />
       <section className="max-w-7xl mx-auto flex items-center justify-center min-h-screen">
-        <form
-          onSubmit={submitHandler}
-          className="w-1/2 border border-gray-200 rounded-md p-6"
-        >
+        <form onSubmit={submitHandler} className="w-1/2 border  rounded-md p-6">
           <h1 className="mb-5 text-xl font-bold">Sign In</h1>
           <div>
             <Label>Email</Label>
