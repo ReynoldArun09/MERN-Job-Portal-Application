@@ -8,21 +8,17 @@ servers:
 paths:
   /api/v1/auth/signup:
     post:
-      summary: register user
-      description: register route for users
+      tags:
+        - Auth
+      summary: Sign up user
+      description: sign up route for users
       requestBody:
-        description: user credentials
+        description: User credentials
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/signup"
-              required:
-                - email:
-                - password:
-                - fullname:
-                - role:
-                - phoneNumber:
+              $ref: "#/components/schemas/Signup"
               example:
                 email: user@example.com
                 password: password123456789A$
@@ -31,84 +27,210 @@ paths:
                 phoneNumber: 1234567890
       responses:
         "201":
-          description: "User created successfully"
+          description: User created successfully
         "400":
-          description: "User already exists"
+          description: User already exists
         "500":
-          description: "Oops! Something went wrong. Please try again later."
+          description: Oops! Something went wrong. Please try again later.
 
   /api/v1/auth/signin:
     post:
-      summary: login user
-      description: route for login user
+      tags:
+        - Auth
+      summary: Sign In user
+      description: sign in route for users
       requestBody:
-        description: credentials
+        description: User credentials
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/signin"
-              required:
-                - email:
-                - password:
-                - role:
+              $ref: "#/components/schemas/Signin"
               example:
                 email: user@example.com
                 password: password123456789A$
                 role: student
       responses:
         "201":
-          description: "User logged in successfully"
+          description: User logged in successfully.
         "400":
-          description: "User not found"
+          description: User not found.
         "500":
-          description: "Oops! Something went wrong. Please try again later."
+          description: Oops! Something went wrong. Please try again later.
 
   /api/v1/auth/signout:
     post:
-      summary: signout user
-      description: route for signout
+      tags:
+        - Auth
+      summary: Sign out user
+      description: sign out route for users
       responses:
         "200":
-          description: "User has been logged out"
+          description: User has been logged out.
         "500":
-          description: "Oops! Something went wrong. Please try again later."
+          description: Oops! Something went wrong. Please try again later.
 
   /api/v1/company/create-company:
     post:
-      summary: create company
-      description: route for creating company
+      tags:
+        - Company
+      summary: Create company
+      description: Route for creating a company
+      security:
+        - CookieAuth: []
       requestBody:
         description: company name
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/companyName"
-              required:
-                - companyName
+              $ref: "#/components/schemas/Company"
               example:
                 companyName: "testingcompany"
       responses:
         "201":
-          description: "Company created"
+          description: Company created.
         "400":
-          description: "Company Aleady exists"
+          description: Company Aleady exists.
         "401":
-          description: "You are not authorized to perform this action."
+          description: You are not authorized to perform this action.
         "500":
-          description: "Oops! Something went wrong. Please try again later."
+          description: Oops! Something went wrong. Please try again later.
+
+  /api/v1/company/get-company:
+    get:
+      tags:
+        - Company
+      summary: Get logged-in user's company
+      description: Retrieve the company associated with the logged-in user
+      security:
+        - CookieAuth: []
+      responses:
+        "200":
+          description: success.
+        "400":
+          description: Company not found.
+        "500":
+          description: Oops! Something went wrong. Please try again later.
+
+  /api/v1/company/company/{id}:
+    get:
+      tags:
+        - Company
+      summary: Get company by ID
+      description: Retrieve a company by its ID
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: the id of the company
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success.
+        "400":
+          description: Company not found.
+        "500":
+          description: Oops! Something went wrong. Please try again later.
+
+  /api/v1/job/create-job:
+    post:
+      tags:
+        - Job
+      summary: Create job
+      description: Route for creating a job
+      security:
+        - CookieAuth: []
+      requestBody:
+        description: Job credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Job"
+              example:
+                title: testingcompany
+                description: testindescription
+                salary: 50000
+                location: India
+                jobType: fulltime
+                experienceLevel: 2
+                position: 2
+                companyId: companyid123
+      responses:
+        "201":
+          description: Job created.
+        "401":
+          description: You are not authorized to perform this action.
+        "500":
+          description: Oops! Something went wrong. Please try again later.
+
+  /api/v1/job/single/{id}:
+    get:
+      tags:
+        - Job
+      summary: Get job by ID
+      description: Retrieve a job by job id
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: the id of the job
+          schema:
+            type: string
+      responses:
+        "200":
+          description: success.
+        "400":
+          description: Job not found.
+        "500":
+          description: Oops! Something went wrong. Please try again later.
+
+  /api/v1/job/admin-jobs:
+    get:
+      tags:
+        - Job
+      summary: Get admin jobs
+      description: Retrieve jobs created by the admin.
+      security:
+        - CookieAuth: []
+      responses:
+        "200":
+          description: success.
+        "400":
+          description: Jobs not found.
+        "500":
+          description: Oops! Something went wrong. Please try again later.
 
 components:
   schemas:
-    signup:
+    Job:
       type: object
-      required:
-        - email
-        - password
-        - fullname
-        - role
-        - phoneNumber
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        salary:
+          type: number
+        location:
+          type: string
+        jobType:
+          type: string
+        experienceLevel:
+          type: number
+        position:
+          type: number
+        companyId:
+          type: string
+
+    Signup:
+      type: object
       properties:
         fullname:
           type: string
@@ -125,12 +247,9 @@ components:
         phoneNumber:
           type: number
           maxLength: 10
-    signin:
+
+    Signin:
       type: object
-      required:
-        - email
-        - password
-        - role
       properties:
         email:
           type: string
@@ -142,10 +261,23 @@ components:
           enum:
             - student
             - recruiter
-    companyName:
+
+    Company:
       type: string
-      required:
-        - companyName
       properties:
         companyName:
           type: string
+
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: accessToken
+
+tags:
+  - name: Auth
+    description: Endpoints related to authentication (signup, signin, signout)
+  - name: Company
+    description: Endpoints for company creation and retrieval
+  - name: Job
+    description: Endpoints for job creation and retrieval

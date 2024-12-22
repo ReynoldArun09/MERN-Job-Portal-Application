@@ -1,13 +1,13 @@
 import { type Request, type Response } from "express";
-import { JobSchemaType } from "../schemas/job-schema";
-import { AppError, AsyncWrapper } from "../utils";
-import { Job } from "../models";
-import { SendApiResponse } from "../helpers/api-response";
 import {
   ApiErrorMessages,
   ApiSuccessMessages,
   HttpStatusCode,
 } from "../constants";
+import { SendApiResponse } from "../helpers/api-response";
+import { Job } from "../models";
+import { JobSchemaType } from "../schemas/job-schema";
+import { AppError, AsyncWrapper } from "../utils";
 
 export const PostJobApi = AsyncWrapper(
   async (req: Request<{}, {}, JobSchemaType>, res: Response) => {
@@ -24,13 +24,18 @@ export const PostJobApi = AsyncWrapper(
     } = req.body;
     const userId = req.user._id;
 
+    const parsedRequirements =
+      typeof requirements === "string"
+        ? requirements.split(",").map((item: string) => item.trim())
+        : [];
+
     const job = await Job.create({
       title,
       description,
       location,
       jobType,
       experienceLevel,
-      requirements: requirements.split(","),
+      requirements: parsedRequirements,
       salary: Number(salary),
       position,
       company: companyId,

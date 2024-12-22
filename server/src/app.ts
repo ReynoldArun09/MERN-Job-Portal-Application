@@ -1,17 +1,17 @@
-import express, { type Application } from "express";
-import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import express, { type Application } from "express";
+import helmet from "helmet";
 import swaggerUI from "swagger-ui-express";
 import YAML from "yamljs";
 import { ParsedEnvVariables } from "./config";
+import { ErrorMiddleware, RouteNotFound } from "./middlewares";
 import {
   applicationRoutes,
   authRoutes,
   companyRoutes,
   jobRoutes,
 } from "./routes";
-import { ErrorMiddleware, RouteNotFound } from "./middlewares";
 
 const app: Application = express();
 const swaggerSpec = YAML.load("./src/docs/swagger.yaml");
@@ -29,7 +29,15 @@ app.use(cookieParser());
 app.disable("x-powered-by");
 
 if (ParsedEnvVariables.NODE_ENV !== "production") {
-  app.use("/api/v1/docs", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+  app.use(
+    "/api/v1/docs",
+    swaggerUI.serve,
+    swaggerUI.setup(swaggerSpec, {
+      swaggerOptions: {
+        withCredentials: true,
+      },
+    })
+  );
 }
 
 app.use("/api/v1/auth", authRoutes);
