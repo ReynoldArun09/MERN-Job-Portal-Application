@@ -1,9 +1,9 @@
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import SiteLogo from "../../common/site-logo";
 import AuthButtons from "./auth-buttons";
 import NavLinks from "./nav-links";
 import ProfileInfo from "./profile-info";
-import SiteLogo from "./site-logo";
 
 export default function SiteHeader() {
   const { user } = useSelector((state: RootState) => state.auth);

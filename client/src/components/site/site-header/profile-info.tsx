@@ -21,21 +21,20 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
     <Popover>
       <PopoverTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage
-            src={user?.profile?.profilePhoto || "https://github.com/shadcn.png"}
-          />
+          <AvatarImage src={user?.profile?.profilePhoto} />
+          <AvatarFallback>
+            {user?.fullname.slice(0, 2).toUpperCase()}
+          </AvatarFallback>
         </Avatar>
       </PopoverTrigger>
       <PopoverContent className="space-y-4 w-80">
         <div className="flex items-center gap-5">
           <div>
             <Avatar className="cursor-pointer">
-              <AvatarImage
-                src={
-                  user?.profile?.profilePhoto || "https://github.com/shadcn.png"
-                }
-              />
-              <AvatarFallback>{user?.fullname.slice(0, 2)}</AvatarFallback>
+              <AvatarImage src={user?.profile?.profilePhoto} />
+              <AvatarFallback>
+                {user?.fullname.slice(0, 2).toUpperCase()}
+              </AvatarFallback>
             </Avatar>
           </div>
           <div className="space-y-1">

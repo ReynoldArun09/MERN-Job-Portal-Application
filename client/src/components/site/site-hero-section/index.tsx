@@ -21,7 +21,7 @@ export default function SiteHeroSection() {
   return (
     <section className="text-center space-y-5 py-10">
       <div className="space-y-5">
-        <Badge className="text-rose-600 px-4 py-2 rounded-full">
+        <Badge className="text-purple-600 px-4 py-2 rounded-full">
           No. 1 job search platform
         </Badge>
         <h1 className="font-bold text-5xl tracking-wider">
@@ -39,7 +39,7 @@ export default function SiteHeroSection() {
         />
         <Button
           size={"lg"}
-          className="rounded-r-full bg-purple-600 text-white"
+          className="rounded-r-full bg-purple-600 hover:bg-purple-700 text-white"
           onClick={handleSubmit}
         >
           <SearchIcon className="h-4 w-4" />
