@@ -1,6 +1,7 @@
 import ErrorFallback from "@/components/common/error-fallback";
 import TopLoader from "@/components/common/top-loader";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/context/theme-provider";
 import { store } from "@/store";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -14,10 +15,12 @@ export default function Provider({ children }: { children: React.ReactNode }) {
       <ErrorBoundary fallback={<ErrorFallback />}>
         <HelmetProvider>
           <ReduxProvider store={store}>
-            <BrowserRouter>
-              {children}
-              <Toaster />
-            </BrowserRouter>
+            <ThemeProvider defaultTheme="dark">
+              <BrowserRouter>
+                {children}
+                <Toaster richColors />
+              </BrowserRouter>
+            </ThemeProvider>
           </ReduxProvider>
         </HelmetProvider>
       </ErrorBoundary>
