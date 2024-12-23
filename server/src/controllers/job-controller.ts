@@ -106,7 +106,7 @@ export const GetJobByIdApi = AsyncWrapper(
 export const GetAdminJobsApi = AsyncWrapper(
   async (req: Request, res: Response) => {
     const adminId = req.user._id;
-    const existingJobs = await Job.find({ created_by: adminId })
+    const existingJobs = await Job.find({ createdBy: adminId })
       .populate({
         path: "company",
       })
