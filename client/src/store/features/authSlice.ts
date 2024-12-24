@@ -1,7 +1,12 @@
 import { SignInSchemaType, SignUpSchemaType } from "@/schemas/auth-schema";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
-import { SignInApi, SignUpApi } from "../services/auth-api";
+import {
+  SignInApi,
+  SignOutApi,
+  SignUpApi,
+  VerifyAuthApi,
+} from "../services/auth-api";
 import { InitialAuthState, UserType } from "../types";
 
 const initialState: InitialAuthState = {
@@ -24,6 +29,8 @@ type ApiError = {
 };
 
 type SignUpApiResponse = Omit<SignInApiResponse, "data">;
+type VerifyApiResponse = Omit<SignInApiResponse, "message">;
+type SignOutApiResponse = Omit<SignInApiResponse, "data">;
 
 export const SigninUser = createAsyncThunk<
   SignInApiResponse,
@@ -65,13 +72,53 @@ export const SignupUser = createAsyncThunk<
   }
 });
 
+export const VerifyUser = createAsyncThunk<
+  VerifyApiResponse,
+  undefined,
+  { rejectValue: ApiError }
+>("auth/VerifyUser", async (_, thunkAPI) => {
+  try {
+    const response = await VerifyAuthApi();
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
+      return thunkAPI.rejectWithValue({
+        message: error.response?.data?.message || "Unknown error occurred",
+      });
+    }
+    return thunkAPI.rejectWithValue({
+      message: "Something went wrong. Please try again later.",
+    });
+  }
+});
+
+export const SignOutUser = createAsyncThunk<
+  SignOutApiResponse,
+  undefined,
+  { rejectValue: ApiError }
+>("auth/SignOut", async (_, thunkAPI) => {
+  try {
+    const response = await SignOutApi();
+    return response;
+  } catch (error) {
+    if (error instanceof AxiosError && error.response) {
+      return thunkAPI.rejectWithValue({
+        message: error.response?.data?.message || "Unknown error occurred",
+      });
+    }
+    return thunkAPI.rejectWithValue({
+      message: "Something went wrong. Please try again later.",
+    });
+  }
+});
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     clearState: (state) => {
       state.errorMessage = "";
-      state.errorMessage = "";
+      state.successMessage = "";
       state.isError = false;
       state.isFetching = false;
       state.isSuccess = false;
@@ -107,6 +154,27 @@ export const authSlice = createSlice({
         state.isError = true;
         state.errorMessage =
           action?.payload?.message || "Something went wrong!!";
+      })
+      .addCase(VerifyUser.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(VerifyUser.fulfilled, (state, action) => {
+        state.isFetching = false;
+        state.user = action.payload.data;
+      })
+      .addCase(VerifyUser.rejected, (state) => {
+        state.isFetching = false;
+      })
+      .addCase(SignOutUser.pending, (state) => {
+        state.isFetching = true;
+      })
+      .addCase(SignOutUser.fulfilled, (state, action) => {
+        state.isFetching = false;
+        state.successMessage = action.payload.message;
+        state.isSuccess = true;
+      })
+      .addCase(SignOutUser.rejected, (state) => {
+        state.isFetching = false;
       });
   },
 });

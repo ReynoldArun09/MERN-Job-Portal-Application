@@ -1,3 +1,13 @@
+import SiteCarousel from "@/components/web/site/site-carousel";
+import SiteHero from "@/components/web/site/site-hero";
+import SiteLatestJobs from "@/components/web/site/site-latest-jobs";
+
 export default function HomePage() {
-  return <div>HomePage</div>;
+  return (
+    <>
+      <SiteHero />
+      <SiteCarousel />
+      <SiteLatestJobs />
+    </>
+  );
 }
