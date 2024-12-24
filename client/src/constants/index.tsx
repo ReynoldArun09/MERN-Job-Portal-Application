@@ -1,8 +1,8 @@
 import { FacebookIcon, LinkedInIcon, TwitterIcon } from "@/assets";
-
+import { Building2Icon, FileUserIcon, PlusIcon } from "lucide-react";
 export const adminRoutes = [
   { name: "Companies", url: "/admin/companies" },
-  { name: "Jobs", url: "/admin/admin-jobs" },
+  { name: "Jobs", url: "/admin/jobs" },
 ];
 
 export const siteRoutes = [
@@ -23,4 +23,27 @@ export const categories: string[] = [
   "Data Science",
   "Graphic Designer",
   "FullStack Developer",
+];
+
+export const adminSidebarLinks = [
+  {
+    title: "Jobs",
+    url: "/admin/jobs",
+    icon: FileUserIcon,
+  },
+  {
+    title: "Create Jobs",
+    url: "/admin/jobs-create",
+    icon: PlusIcon,
+  },
+  {
+    title: "Companies",
+    url: "/admin/companies",
+    icon: Building2Icon,
+  },
+  {
+    title: "Create Company",
+    url: "/admin/companies-create",
+    icon: PlusIcon,
+  },
 ];

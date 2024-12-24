@@ -9,10 +9,11 @@ export interface InitialAuthState {
 
 export interface initialJobState {
   searchQuery: string;
-  jobs: [];
+  jobs: JobType[];
   isFetching: boolean;
   isError: boolean;
   errorMessage: string;
+  latestJobs: JobType[];
 }
 
 export interface UserType {
@@ -31,4 +32,25 @@ export interface Profile {
   resumeOriginalName: string;
   company: Company;
   profilePhoto: string;
+}
+
+export interface JobType {
+  _id: string;
+  title: string;
+  description: string;
+  requirements: string[];
+  salary: number;
+  experienceLevel: number;
+  location: string;
+  jobType: string;
+  position: number;
+  company: Company;
+  createdBy: string;
+  applications: [];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CompanyType {
+  _id: string;
 }

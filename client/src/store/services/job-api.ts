@@ -10,3 +10,8 @@ export const fetchAllJobsApi = async (query: string) => {
 
   return response.data;
 };
+
+export const fetchLatestJobsApi = async () => {
+  const response = await axios.get(`/job/latest-jobs`);
+  return response.data;
+};
