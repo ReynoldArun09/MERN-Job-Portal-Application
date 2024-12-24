@@ -7,6 +7,14 @@ export interface InitialAuthState {
   successMessage: string;
 }
 
+export interface initialJobState {
+  searchQuery: string;
+  jobs: [];
+  isFetching: boolean;
+  isError: boolean;
+  errorMessage: string;
+}
+
 export interface UserType {
   _id: string;
   email: string;

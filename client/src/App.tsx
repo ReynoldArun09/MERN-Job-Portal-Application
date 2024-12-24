@@ -10,6 +10,7 @@ import { RootState } from "./store";
 const HomePage = lazy(() => import("./pages/site/home-page"));
 const SignInPage = lazy(() => import("./pages/auth/signin-page"));
 const SignUpPage = lazy(() => import("./pages/auth/signup-page"));
+const BrowsePage = lazy(() => import("./pages/site/browse-page"));
 
 export default function App() {
   const { VerifyAuth } = useAuth();
@@ -26,6 +27,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<SiteLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="/browse" element={<BrowsePage />} />
       </Route>
       <Route
         path="/auth"
