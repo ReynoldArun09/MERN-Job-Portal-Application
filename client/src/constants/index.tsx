@@ -47,3 +47,30 @@ export const adminSidebarLinks = [
     icon: PlusIcon,
   },
 ];
+
+export const filterData = [
+  {
+    fitlerType: "Location",
+    array: [
+      "Denver, CO",
+      "Portland, OR",
+      "Chicago, IL",
+      "Washington, DC",
+      "San Jose, CA",
+    ],
+  },
+  {
+    fitlerType: "Industry",
+    array: [
+      "Frontend Developer",
+      "Mobile Developer",
+      "DevOps Lead",
+      "Backend Developer",
+      "Al Engineer",
+    ],
+  },
+  {
+    fitlerType: "Salary",
+    array: ["0-40k", "42-1lakh", "1lakh to 5lakh"],
+  },
+];

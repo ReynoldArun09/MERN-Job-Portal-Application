@@ -45,7 +45,7 @@ import {
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  filterName: string;
+  filterName?: string;
 }
 
 export function DataTable<TData, TValue>({

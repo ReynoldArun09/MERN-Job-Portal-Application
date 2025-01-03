@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { JobType } from "@/store/types";
 import { formatSalary } from "@/utils";
 import { useNavigate } from "react-router-dom";
 import {
@@ -10,19 +11,27 @@ import {
   CardTitle,
 } from "../ui/card";
 
-export default function JobCard({ job }: any) {
+interface JobCardProps {
+  job: JobType;
+}
+
+export default function JobCard({ job }: JobCardProps) {
   const navigate = useNavigate();
   return (
     <Card
-      className="hover:shadow-md transition-shadow cursor-pointer h-[280px] flex flex-col justify-between"
+      className="hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between"
       onClick={() => navigate(`/description/${job._id}`)}
     >
       <div>
         <CardHeader>
           <div className="flex items-start justify-between">
             <div>
-              <CardTitle className="text-lg">Tata Steel</CardTitle>
-              <CardDescription>India</CardDescription>
+              <CardTitle className="text-lg">
+                {job?.title || "No Title Found"}
+              </CardTitle>
+              <CardDescription>
+                {job?.location || "Location is unkown"}
+              </CardDescription>
             </div>
             <Badge variant="outline" className="shrink-0">
               {job.position} Position
@@ -35,6 +44,13 @@ export default function JobCard({ job }: any) {
           <p className="text-muted-foreground text-sm line-clamp-3">
             {job.description}
           </p>
+          <div className="flex gap-2 flex-wrap">
+            {job?.requirements?.map((req, index) => (
+              <Badge variant={"outline"} key={index}>
+                {req}
+              </Badge>
+            ))}
+          </div>
         </CardContent>
       </div>
 
@@ -45,7 +61,7 @@ export default function JobCard({ job }: any) {
         <Badge variant="secondary" className="whitespace-nowrap">
           {formatSalary(job.salary)}
         </Badge>
-        <Badge variant="secondary">Experience {job.experienceLevel}</Badge>
+        <Badge variant="secondary">Experience {job.experienceLevel}+</Badge>
       </CardFooter>
     </Card>
   );

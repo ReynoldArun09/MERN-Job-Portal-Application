@@ -21,6 +21,7 @@ export const PostJobApi = AsyncWrapper(
       experienceLevel,
       position,
       companyId,
+      applications,
     } = req.body;
     const userId = req.user._id;
 
@@ -40,6 +41,7 @@ export const PostJobApi = AsyncWrapper(
       position,
       company: companyId,
       createdBy: userId,
+      applications,
     });
 
     SendApiResponse({
@@ -58,6 +60,7 @@ export const GetAllJobsApi = AsyncWrapper(
       $or: [
         { title: { $regex: keyword, $options: "i" } },
         { description: { $regex: keyword, $options: "i" } },
+        { requirements: { $regex: keyword, $options: "i" } },
       ],
     };
     const jobs = await Job.find(query)
@@ -84,9 +87,13 @@ export const GetAllJobsApi = AsyncWrapper(
 export const GetJobByIdApi = AsyncWrapper(
   async (req: Request<{ id: string }, {}, {}>, res: Response) => {
     const jobId = req.params.id;
-    const existingJob = await Job.findById(jobId).populate({
-      path: "applications",
-    });
+    const existingJob = await Job.findById(jobId)
+      .populate({
+        path: "applications",
+      })
+      .populate({
+        path: "company",
+      });
 
     if (!existingJob) {
       throw new AppError(
@@ -122,6 +129,30 @@ export const GetAdminJobsApi = AsyncWrapper(
       res,
       statusCode: HttpStatusCode.OK,
       data: existingJobs,
+    });
+  }
+);
+
+export const GetLatestJobsApi = AsyncWrapper(
+  async (req: Request<{}, {}, {}, {}>, res: Response) => {
+    const jobs = await Job.find({})
+      .limit(6)
+      .populate({
+        path: "company",
+      })
+      .sort({ createdAt: -1 });
+
+    if (!jobs) {
+      throw new AppError(
+        ApiErrorMessages.JOB_NOT_FOUND,
+        HttpStatusCode.NOT_FOUND
+      );
+    }
+
+    SendApiResponse({
+      res,
+      statusCode: HttpStatusCode.OK,
+      data: jobs,
     });
   }
 );

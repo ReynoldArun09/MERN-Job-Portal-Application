@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { AuthMiddleware, ValidationMiddleware } from "../middlewares";
 import {
   GetCompanyApi,
   GetCompanyByIdApi,
   RegisterCompanyApi,
 } from "../controllers/company-controller";
+import { AuthMiddleware, ValidationMiddleware } from "../middlewares";
 import { CompanySchema } from "../schemas/company-schema";
 
 const companyRoutes = Router();
@@ -16,6 +16,6 @@ companyRoutes.post(
   RegisterCompanyApi
 );
 companyRoutes.get("/get-company", AuthMiddleware, GetCompanyApi);
-companyRoutes.get("/company/:id", GetCompanyByIdApi);
+companyRoutes.get("/:id", GetCompanyByIdApi);
 
 export default companyRoutes;

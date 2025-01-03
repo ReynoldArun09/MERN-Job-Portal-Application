@@ -7,25 +7,22 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { RootState, useAppDispatch } from "@/store";
-import { SignOutUser } from "@/store/features/authSlice";
+import { SignOutUser } from "@/store/services/auth/auth-service";
+
 import { UserType } from "@/store/types";
 import { LogOutIcon, User2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
 
 interface ProfileInfoProps {
   user: UserType;
 }
 
 export default function ProfileInfo({ user }: ProfileInfoProps) {
-  const { isFetching, successMessage } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { isLoading } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const handleLogout = () => {
     dispatch(SignOutUser());
-    toast.success(successMessage);
   };
 
   return (
@@ -64,7 +61,7 @@ export default function ProfileInfo({ user }: ProfileInfoProps) {
             <User2 size={20} />
             View Profile
           </Link>
-          <Button variant={"link"} onClick={handleLogout} disabled={isFetching}>
+          <Button variant={"link"} onClick={handleLogout} disabled={isLoading}>
             <LogOutIcon size={25} />
             Sign Out
           </Button>

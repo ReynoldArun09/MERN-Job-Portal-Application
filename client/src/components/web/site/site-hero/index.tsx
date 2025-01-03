@@ -7,7 +7,7 @@ import { SearchIcon } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function SiteHeroSection() {
+export default function SiteHero() {
   const [query, setQuery] = useState("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

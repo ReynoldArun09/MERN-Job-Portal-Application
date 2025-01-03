@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/carousel";
 import { categories } from "@/constants";
 
-export default function SiteCategoryCarousel() {
+export default function SiteCarousel() {
   return (
     <section>
       <Carousel className="w-full max-w-xl mx-auto my-20">

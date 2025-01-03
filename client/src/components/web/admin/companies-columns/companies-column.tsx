@@ -1,21 +1,25 @@
 import { ColumnDef } from "@tanstack/react-table";
 import CompaniesOptions from "./companies-options";
 
-interface CompaniesType {
+interface CompanyDataType {
   _id: string;
   name: string;
-  title: string;
-  createdAt: string;
+  website: string;
+  location: string;
 }
 
-export const CompaniesColumn: ColumnDef<CompaniesType>[] = [
+export const CompaniesColumn: ColumnDef<CompanyDataType>[] = [
   {
     accessorKey: "name",
     header: "Company Name",
   },
   {
-    accessorKey: "title",
-    header: "Role",
+    accessorKey: "website",
+    header: "Website",
+  },
+  {
+    accessorKey: "location",
+    header: "Location",
   },
   {
     accessorKey: "createdAt",

@@ -1,98 +1,70 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AxiosError } from "axios";
-import { fetchAllJobsApi, fetchLatestJobsApi } from "../services/job-api";
-import { initialJobState, JobType } from "../types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  fetchAdminJobs,
+  fetchAllJobs,
+  fetchLatestJobs,
+  fetchSingleJobs,
+} from "../services/job/job-service";
+import { initialJobState } from "../types";
 
 const initialState: initialJobState = {
   searchQuery: "",
-  jobs: [],
-  latestJobs: [],
-  isFetching: false,
-  isError: false,
-  errorMessage: "",
+  isLoading: false,
+  jobsData: [],
+  latestJobsData: [],
+  adminJobsData: [],
+  singleJob: null,
 };
 
-type ApiError = {
-  message: string;
-};
-
-type ApiResponse = {
-  success: boolean;
-  data: JobType[];
-};
-
-export const fetchAllJobs = createAsyncThunk<
-  ApiResponse,
-  { query: string },
-  { rejectValue: ApiError }
->("job/fetchAllJobs", async ({ query }, thunkAPI) => {
-  try {
-    const response = await fetchAllJobsApi(query);
-    return response;
-  } catch (error) {
-    if (error instanceof AxiosError && error.response) {
-      return thunkAPI.rejectWithValue({
-        message: error.response?.data?.message || "Unknown error occurred",
-      });
-    }
-    return thunkAPI.rejectWithValue({
-      message: "Something went wrong. Please try again later.",
-    });
-  }
-});
-
-export const fetchLatestJobs = createAsyncThunk<
-  ApiResponse,
-  undefined,
-  { rejectValue: ApiError }
->("job/fetchLatestJobs", async (_, thunkAPI) => {
-  try {
-    const response = await fetchLatestJobsApi();
-    return response;
-  } catch (error) {
-    if (error instanceof AxiosError && error.response) {
-      return thunkAPI.rejectWithValue({
-        message: error.response?.data?.message || "Unknown error occurred",
-      });
-    }
-    return thunkAPI.rejectWithValue({
-      message: "Something went wrong. Please try again later.",
-    });
-  }
-});
-
-export const jobSlice = createSlice({
+const jobSlice = createSlice({
   name: "job",
   initialState,
   reducers: {
     setSearchQuery: (state, action: PayloadAction<string>) => {
-      state.searchQuery = action.payload;
+      state.searchQuery = action?.payload;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllJobs.pending, (state) => {
-        state.isFetching = true;
+        state.isLoading = true;
       })
       .addCase(fetchAllJobs.fulfilled, (state, action) => {
-        state.isFetching = false;
-        state.jobs = action?.payload.data;
+        state.isLoading = false;
+        state.jobsData = action?.payload.data;
       })
-      .addCase(fetchAllJobs.rejected, (state, action) => {
-        state.isFetching = false;
-        state.isError = true;
-        state.errorMessage =
-          action?.payload?.message || "Something went wrong!!";
+      .addCase(fetchAllJobs.rejected, (state) => {
+        state.isLoading = false;
       })
       .addCase(fetchLatestJobs.pending, (state) => {
-        state.isFetching = true;
+        state.isLoading = true;
       })
       .addCase(fetchLatestJobs.fulfilled, (state, action) => {
-        state.isFetching = false;
-        state.latestJobs = action.payload.data;
+        state.isLoading = false;
+        state.latestJobsData = action.payload.data;
       })
       .addCase(fetchLatestJobs.rejected, (state) => {
-        state.isFetching = false;
+        state.isLoading = false;
+      })
+      .addCase(fetchAdminJobs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAdminJobs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.adminJobsData = action.payload.data;
+      })
+      .addCase(fetchAdminJobs.rejected, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(fetchSingleJobs.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchSingleJobs.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.singleJob = action.payload.data;
+      })
+      .addCase(fetchSingleJobs.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });

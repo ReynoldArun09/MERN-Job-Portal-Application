@@ -11,6 +11,7 @@ export const JobSchema = z.object({
   position: z.number().positive("Position must be positive number"),
   companyId: z.string().min(1, "Company Id is required"),
   createdBy: z.string().min(1, "Created By is required"),
+  applications: z.any().optional(),
 });
 
 export type JobSchemaType = z.infer<typeof JobSchema>;

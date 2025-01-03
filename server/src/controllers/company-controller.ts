@@ -1,13 +1,13 @@
 import { type Request, type Response } from "express";
-import { AppError, AsyncWrapper } from "../utils";
-import { Company } from "../models";
 import {
   ApiErrorMessages,
   ApiSuccessMessages,
   HttpStatusCode,
 } from "../constants";
 import { SendApiResponse } from "../helpers/api-response";
+import { Company } from "../models";
 import { CompanySchemaType } from "../schemas/company-schema";
+import { AppError, AsyncWrapper } from "../utils";
 
 export const RegisterCompanyApi = AsyncWrapper(
   async (req: Request<{}, {}, CompanySchemaType>, res: Response) => {
@@ -45,7 +45,7 @@ export const GetCompanyApi = AsyncWrapper(
     if (!existingCompanies) {
       throw new AppError(
         ApiErrorMessages.COMPANY_NOT_FOUND,
-        HttpStatusCode.NOT_FOUND
+        HttpStatusCode.BAD_REQUEST
       );
     }
 
@@ -62,11 +62,12 @@ export const GetCompanyByIdApi = AsyncWrapper(
     const companyId = req.params.id;
 
     const existingCompany = await Company.findById(companyId);
+    console.log(existingCompany);
 
     if (!existingCompany) {
       throw new AppError(
         ApiErrorMessages.COMPANY_NOT_FOUND,
-        HttpStatusCode.NOT_FOUND
+        HttpStatusCode.BAD_REQUEST
       );
     }
 
